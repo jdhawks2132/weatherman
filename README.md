@@ -11,6 +11,9 @@
 
 Weather App that uses Openweather to search US cities by name and state and return the current forecast
 
-## Technology used: 
+## Technology used:
+
+HTML5, CSS3, JavaScript, jQuery, Bootstrap, Openweather API
+
 
 
