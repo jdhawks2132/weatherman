@@ -73,7 +73,7 @@ const generateWeather = (data, city, state, today, index = 0) => {
 	let uvi = data.uvi;
 	let weatherDescription = data.weather[0].description;
 
-	let card = $('<div>').addClass('card p-10 text-center ');
+	let card = $('<div>').addClass('card p-10 align-items-center text-center');
 	sourceCheck
 		? card.addClass('col-md-3 m-2 bg-info text-white border border-white')
 		: card.addClass('bg-light border border-dark shadow-lg');
@@ -91,14 +91,15 @@ const generateWeather = (data, city, state, today, index = 0) => {
 		.addClass('card-text')
 		.text(`Weather Description: ${weatherDescription}`);
 
-	let cardText5 = $('<p>').addClass('card-text').text(`UV Index: ${uvi}`);
-	cardText5.style = 'width: 20px';
+	let cardText5 = $('<p>')
+		.addClass('card-text text-center')
+		.text(`UV Index: ${uvi}`);
 
 	if (!sourceCheck) {
 		if (uvi > 7) {
 			cardText5.addClass('bg-danger text-white');
 		} else if (uvi > 5) {
-			cardText5.addClass('bg-warning text-white');
+			cardText5.addClass('bg-warning text-dark');
 		} else {
 			cardText5.addClass('bg-success text-white');
 		}
