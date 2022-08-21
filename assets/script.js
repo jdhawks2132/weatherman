@@ -75,8 +75,8 @@ const generateWeather = (data, city, state, today, index = 0) => {
 
 	let card = $('<div>').addClass('card p-10 align-items-center text-center');
 	sourceCheck
-		? card.addClass('col-md-3 m-2 bg-info text-white border border-white')
-		: card.addClass('bg-light border border-dark shadow-lg');
+		? card.addClass('col-md-2 m-2 bg-info text-white border border-white')
+		: card.addClass('bg-light border border-dark shadow');
 	let cardBody = $('<div>').addClass('card-body');
 	let cardTitle = $('<h5>').addClass('card-title').text(name);
 	let cardDate = $('<h6>').addClass('card-subtitle mb-2 text-muted').text(date);
