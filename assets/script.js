@@ -23,6 +23,8 @@ const handleSubmit = async (e) => {
 	}
 };
 
+
+
 async function getLatLon(city, state) {
 	const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},usa&limit=5&appid=${apiKey}`;
 	const response = await fetch(url);
@@ -39,7 +41,7 @@ async function getLatLon(city, state) {
 }
 
 const getForecast = async (lat, lon, city, state) => {
-	const url = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly&contd=&appid=${apiKey}`;
+	const url = `http://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly&contd=&appid=${apiKey}`;
 	const response = await fetch(url);
 	const data = await response.json();
 	if (data) {
