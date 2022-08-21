@@ -1,6 +1,12 @@
-
 let requests = [];
-
+let today = new Date();
+const options = {
+	weekday: 'long',
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+};
+let currentDate = today.toLocaleDateString('en-US', options);
 $(document).ready(function () {
 	$('#city-form').on('submit', handleSubmit);
 });
@@ -22,8 +28,6 @@ const handleSubmit = async (e) => {
 		}
 	}
 };
-
-
 
 async function getLatLon(city, state) {
 	const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},usa&limit=5&appid=${apiKey}`;
@@ -49,23 +53,33 @@ const getForecast = async (lat, lon, city, state) => {
 			$('.card').remove();
 		}
 
-		generateWeather(data.current, city, state);
-		generateForecast(data, city, state);
+		generateWeather(data.current, city, state, currentDate);
+		generateForecast(data.daily.slice(0, 5));
 	}
 };
 
-const generateWeather = (data, city, state) => {
-	console.log('weather', data);
-	let name = `${city}, ${state}`;
-	let temp = data.temp;
+const generateWeather = (data, city, state, today, index = 0) => {
+	let indexDay = new Date();
+	indexDay.setDate(indexDay.getDate() + index + 1);
+
+	let day = indexDay.toLocaleDateString('en-US', options);
+	let sourceCheck = typeof data.temp === 'object' ? true : false;
+	let name =
+		city === undefined && state === undefined ? '' : `${city}, ${state}`;
+	let date = sourceCheck ? day : today;
+	let temp = sourceCheck ? data.temp.day : data.temp;
 	let humidity = data.humidity;
 	let windSpeed = data.wind_speed;
 	let uvi = data.uvi;
 	let weatherDescription = data.weather[0].description;
 
-	let card = $('<div>').addClass('card p-10');
+	let card = $('<div>').addClass('card p-10 text-center ');
+	sourceCheck
+		? card.addClass('col-md-3 m-2 bg-info text-white border border-white')
+		: card.addClass('bg-light border border-dark shadow-lg');
 	let cardBody = $('<div>').addClass('card-body');
 	let cardTitle = $('<h5>').addClass('card-title').text(name);
+	let cardDate = $('<h6>').addClass('card-subtitle mb-2 text-muted').text(date);
 	let cardText = $('<p>').addClass('card-text').text(`Temperature: ${temp} °F`);
 	let cardText2 = $('<p>')
 		.addClass('card-text')
@@ -76,7 +90,19 @@ const generateWeather = (data, city, state) => {
 	let cardText4 = $('<p>')
 		.addClass('card-text')
 		.text(`Weather Description: ${weatherDescription}`);
+
 	let cardText5 = $('<p>').addClass('card-text').text(`UV Index: ${uvi}`);
+	cardText5.style = 'width: 20px';
+
+	if (!sourceCheck) {
+		if (uvi > 7) {
+			cardText5.addClass('bg-danger text-white');
+		} else if (uvi > 5) {
+			cardText5.addClass('bg-warning text-white');
+		} else {
+			cardText5.addClass('bg-success text-white');
+		}
+	}
 	let cardImg = $('<img>')
 		.addClass('weather-icon')
 		.attr(
@@ -87,6 +113,7 @@ const generateWeather = (data, city, state) => {
 
 	cardBody.append(
 		cardTitle,
+		cardDate,
 		cardText,
 		cardText2,
 		cardText3,
@@ -95,11 +122,15 @@ const generateWeather = (data, city, state) => {
 		cardImg
 	);
 	card.append(cardBody);
-	$('.results').append(card);
+
+	sourceCheck ? $('.five-day-forecast').append(card) : $('.today').append(card);
 };
 
 const generateForecast = (data) => {
 	console.log('forecast', data);
+	data.map((day, index) => {
+		generateWeather(day, undefined, undefined, undefined, index);
+	});
 };
 
 const buttonCheck = (city, state) => {
@@ -143,7 +174,7 @@ const buttonCheck = (city, state) => {
 
 const generateButtons = (city, state) => {
 	const button = $('<button>');
-	button.addClass('btn btn-secondary mx-2 city-button');
+	button.addClass('btn btn-secondary m-2 city-button');
 	button.text(city + ', ' + state);
 	button.attr('data-city', city);
 	button.attr('data-state', state);

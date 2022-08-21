@@ -12,15 +12,15 @@
 </head>
 
 <body>
-  <div class="container">
+  <div class="container p-5">
     <header>
-      <div class="row">
+      <div class="row my-4">
         <div class="col-md-12 text-center p-3">
           <h1 class="m-20">Weather-All</h1>
         </div>
       </div>
     </header>
-    <div class="row">
+    <div class="row my-4">
       <div class="col-md-4">
         <h2 class="text-center">Search US Cities:</h2>
         <form id='city-form' class="form">
@@ -35,16 +35,19 @@
         <div class="search-buttons"></div>
         <div id="clear" class="clear-storage"></div>
       </div>
-      <div class="results col-md-8">
+      <div class="today col-md-8">
         <h2 class="text-center">Search Results:</h2>
-
       </div>
     </div>
     <div class="row">
-      <div class="five-day-forecast col-md-12">
+      <div class="col-md-12">
+        <h2 class="text-center">5 Day Forecast:</h2>
+        <div class="results"></div>
       </div>
     </div>
-  </div>
+    <div class="row five-day-forecast justify-content-center my-2">
+
+    </div>
   </div>
   <!-- JS and jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
