@@ -6,6 +6,7 @@ const options = {
 	month: 'long',
 	day: 'numeric',
 };
+const apiKey = '7d3b5ecf0d8366f0ec986b9a206a5530';
 let currentDate = today.toLocaleDateString('en-US', options);
 $(document).ready(function () {
 	$('#city-form').on('submit', handleSubmit);
