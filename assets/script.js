@@ -190,8 +190,6 @@ if (localStorage.length > 0) {
 		let request = JSON.parse(value);
 		requests.push(request);
 		generateButtons(request.city, request.state);
-		// create a clear local storage button and
-		// add it to the page
 	}
 }
 
